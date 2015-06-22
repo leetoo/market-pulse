@@ -5,11 +5,14 @@ import actors.ExchangeAccountant.{TotalExchange, Sale, SaleAccepted}
 import akka.actor.{ActorSystem, Props}
 import akka.testkit.{ImplicitSender, TestKit, TestProbe}
 import akka.util.Timeout
+import org.junit.runner.RunWith
 import org.scalatest.concurrent.ScalaFutures
+import org.scalatest.junit.JUnitRunner
 import org.scalatest.{BeforeAndAfterAll, MustMatchers, WordSpecLike}
 
 import scala.concurrent.duration._
 
+@RunWith(classOf[JUnitRunner])
 class ExchangeAccountantSpec extends TestKit(ActorSystem("ExchangeAccountantTestSystem"))
                           with ImplicitSender
                           with WordSpecLike

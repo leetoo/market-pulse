@@ -7,11 +7,14 @@ import akka.actor.{ActorRef, ActorSystem, Props}
 import akka.pattern.ask
 import akka.testkit.{TestKit, TestProbe}
 import akka.util.Timeout
+import org.junit.runner.RunWith
 import org.scalatest.concurrent.ScalaFutures
+import org.scalatest.junit.JUnitRunner
 import org.scalatest.{BeforeAndAfterAll, MustMatchers, WordSpecLike}
 
 import scala.concurrent.duration._
 
+@RunWith(classOf[JUnitRunner])
 class ReceptionistSpec extends TestKit(ActorSystem("ReceptionistTestSystem"))
                           with WordSpecLike
                           with BeforeAndAfterAll
