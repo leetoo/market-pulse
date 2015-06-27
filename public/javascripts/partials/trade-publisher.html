@@ -1,0 +1,50 @@
+<div>
+    <h2>Trade publisher</h2>
+
+    <p>This interface allows you to publish trades, using some predefined data fixtures.</p>
+
+    <form name="tradePublisherForm" ng-submit="publishTrade()">
+        <div class="row">
+            <div class="col-xs-3 form-group">
+                <label for="userId">User ID</label>
+                <input type="text" class="form-control" id="userId" ng-model="trade.userId">
+            </div>
+            <div class="col-xs-3 form-group">
+                <label for="originatingCountry">Country</label>
+                <input type="text" class="form-control" id="originatingCountry" ng-model="trade.originatingCountry">
+            </div>
+            <div class="col-xs-3 form-group">
+                <label for="timePlaced">Time</label>
+                <input type="text" class="form-control" id="timePlaced" ng-model="trade.timePlaced">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3 form-group">
+                <label for="currencyFrom">From</label>
+                <input type="text" class="form-control" id="currencyFrom" ng-model="trade.currencyFrom">
+            </div>
+            <div class="col-xs-3 form-group">
+                <label for="currencyFrom">To</label>
+                <input type="text" class="form-control" id="currencyTo" ng-model="trade.currencyTo">
+            </div>
+            <div class="col-xs-3 form-group">
+                <label for="rate">Rate</label>
+                <input type="number" min="0.0" step="0.01" class="form-control" id="rate" ng-model="trade.rate" ng-change="onRateChange(trade.rate)">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3 form-group">
+                <label for="amountSell">Amount ({{trade.currencyFrom}})</label>
+                <input type="number" min="0.0" step="0.01" class="form-control" id="amountSell" ng-model="trade.amountSell" ng-change="onAmountSellChange(trade.amountSell)">
+            </div>
+            <div class="col-xs-3 form-group">
+                <label for="amountBuy">Amount ({{trade.currencyTo}})</label>
+                <input type="number" min="0.0" step="0.01" readonly class="form-control" id="amountBuy" ng-model="trade.amountBuy ">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary" ng-disabled="tradePublisherForm.$invalid">Publish</button>
+        </div>
+    </form>
+</div>
