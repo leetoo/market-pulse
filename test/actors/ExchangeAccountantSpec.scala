@@ -1,7 +1,7 @@
 package actors
 
 import actors.Common.Amount
-import actors.ExchangeAccountant.{TotalExchange, Sale, SaleAccepted}
+import actors.ExchangeAccountant.{TotalExchangeRequired, TotalExchange, Sale, SaleAccepted}
 import akka.actor.{ActorSystem, Props}
 import akka.testkit.{ImplicitSender, TestKit, TestProbe}
 import akka.util.Timeout
@@ -29,9 +29,8 @@ class ExchangeAccountantSpec extends TestKit(ActorSystem("ExchangeAccountantTest
   sealed trait Actors extends Fixtures {
     implicit val timeout = Timeout(2 seconds)
 
-    lazy val probe = TestProbe()
-    lazy val eventStreamProbe = TestProbe()
-    lazy val exchangeAccountant = system.actorOf(Props(new ExchangeAccountant(exchange)))
+    val probe = TestProbe()
+    val exchangeAccountant = system.actorOf(Props(new ExchangeAccountant(exchange)))
   }
 
   override def afterAll() {
@@ -58,18 +57,27 @@ class ExchangeAccountantSpec extends TestKit(ActorSystem("ExchangeAccountantTest
     }
 
     "publish total exchange values to the event stream" in new Actors {
+      val eventStreamListener = TestProbe()
+
       def sell(id: Int, amountSale: Amount, amountBuy: Amount) = {
         exchangeAccountant.tell(sale(id, amountSale, amountBuy), probe.ref)
         probe.expectMsg(SaleAccepted(id))
       }
 
-      system.eventStream.subscribe(eventStreamProbe.ref, classOf[TotalExchange])
+      system.eventStream.subscribe(eventStreamListener.ref, classOf[TotalExchange])
 
       sell(0, 10.0, 5.0)
-      eventStreamProbe.expectMsg(TotalExchange(exchange, 10.0, 5.0))
+      eventStreamListener.expectMsg(TotalExchange(exchange, 10.0, 5.0))
 
       sell(1, 20.0, 10.0)
-      eventStreamProbe.expectMsg(TotalExchange(exchange, 30.0, 15.0))
+      eventStreamListener.expectMsg(TotalExchange(exchange, 30.0, 15.0))
+    }
+
+    "publish total exchange value when an explicit request is published to the event stream" in new Actors {
+      val totalExchangeRequester = TestProbe()
+
+      system.eventStream.publish(TotalExchangeRequired(totalExchangeRequester.ref))
+      totalExchangeRequester.expectMsgAllClassOf(classOf[TotalExchange])
     }
 
   }

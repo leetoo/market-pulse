@@ -12,6 +12,10 @@ marketPulseServices.factory('ExchangeStats', ['$websocket',
         var dataStream = $websocket('ws://' + location.host + '/ws/exchange-stats');
         var statistics = {};
 
+        dataStream.onOpen(function() {
+           dataStream.send(JSON.stringify({ action: 'get' }));
+        });
+
         dataStream.onMessage(function(message) {
             var exchange = JSON.parse(message.data);
             var key = exchange.from + '-' + exchange.to;
@@ -19,10 +23,7 @@ marketPulseServices.factory('ExchangeStats', ['$websocket',
         });
 
         var methods = {
-            collection: statistics,
-            get: function() {
-                dataStream.send(JSON.stringify({ action: 'get' }));
-            }
+            collection: statistics
         };
 
         return methods;

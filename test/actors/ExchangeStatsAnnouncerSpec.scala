@@ -1,8 +1,8 @@
 package actors
 
 import actors.Common.Amount
-import actors.ExchangeAccountant.{Sale, SaleAccepted, TotalExchange}
-import actors.ExchangeStatsAnnouncer.ExchangeStats
+import actors.ExchangeAccountant.{TotalExchangeRequired, Sale, SaleAccepted, TotalExchange}
+import actors.ExchangeStatsAnnouncer.{AnnouncementRequest, ExchangeStats}
 import akka.actor.{ActorSystem, Props}
 import akka.testkit.{ImplicitSender, TestKit, TestProbe}
 import akka.util.Timeout
@@ -51,6 +51,22 @@ class ExchangeStatsAnnouncerSpec extends TestKit(ActorSystem("ExchangeStatsAnnou
       Then("the output should receive valid exchange stats")
       out.expectMsg(exchangeStats)
     }
+
+    "request current exchange stats when asked explicitly" in new Actors {
+      Given("the stats announcer was initialized")
+      exchangeStatsAnnouncer
+
+      And("a stats provider is present")
+      val statsProvider = TestProbe()
+      system.eventStream.subscribe(statsProvider.ref, classOf[TotalExchangeRequired])
+
+      When("a an announcement request sent")
+      exchangeStatsAnnouncer ! AnnouncementRequest("get")
+
+      Then("the stats provider should receive the message")
+      statsProvider.expectMsg(TotalExchangeRequired(exchangeStatsAnnouncer))
+    }
+
   }
 
 }
