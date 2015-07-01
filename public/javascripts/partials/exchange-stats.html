@@ -1,3 +1,22 @@
 <h2>Exchange stats</h2>
 
-<pre>TODO: Implement exchange stats view</pre>
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>From</th>
+                <th>To</th>
+                <th>Total sales</th>
+                <th>Total buys</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="stats in collection">
+                <td>{{stats.from}}</td>
+                <td>{{stats.to}}</td>
+                <td>{{stats.totalSales}}</td>
+                <td>{{stats.totalBuys}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

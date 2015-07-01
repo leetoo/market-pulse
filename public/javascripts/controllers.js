@@ -1,6 +1,7 @@
 var marketPulseControllers = angular.module('marketPulseControllers', []);
 
-marketPulseControllers.controller('ExchangeStatsCtrl', ['$scope', function($scope) {
+marketPulseControllers.controller('ExchangeStatsCtrl', ['$scope', 'ExchangeStats', function($scope, ExchangeStats) {
+    $scope.collection = ExchangeStats.collection;
 }]);
 
 

@@ -1,4 +1,4 @@
-var marketPulseApp = angular.module('marketPulseApp', ['ngRoute', 'marketPulseControllers', 'marketPulseServices']);
+var marketPulseApp = angular.module('marketPulseApp', ['ngRoute', 'ngWebSocket', 'marketPulseControllers', 'marketPulseServices']);
 
 marketPulseApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider

@@ -9,7 +9,7 @@ GET     /                           controllers.Application.index
 POST    /api/trades                 controllers.TradeController.create
 
 # Statistics Stream
-GET     /ws/exchange-stats              controllers.ExchangeStatsStream.socket
+GET     /ws/exchange-stats          controllers.ExchangeStatsStream.socket
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
