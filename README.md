@@ -1,14 +1,14 @@
-Currency Trade Visualizer
-=========================
+Market Pulse
+============
 
-TODO: ...
+A **Play** application with **Akka** back-end and **WebSocket** event streaming.
 
 Running locally
 ---------------
 
 To launch the server in development mode:
 
-    $ activator run
+    $ ./activator run
 
 To **POST** a trade from the command line:
 
