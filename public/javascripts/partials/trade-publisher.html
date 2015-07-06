@@ -7,39 +7,39 @@
         <div class="row">
             <div class="col-xs-3 form-group">
                 <label for="userId">User ID</label>
-                <input type="text" class="form-control" id="userId" ng-model="trade.userId">
+                <input type="text" readonly class="form-control" id="userId" ng-model="trade.userId">
             </div>
             <div class="col-xs-3 form-group">
                 <label for="originatingCountry">Country</label>
-                <input type="text" class="form-control" id="originatingCountry" ng-model="trade.originatingCountry">
+                <select class="form-control" id="originatingCountry" ng-model="trade.originatingCountry" ng-options="country for country in countries"></select>
             </div>
             <div class="col-xs-3 form-group">
                 <label for="timePlaced">Time</label>
-                <input type="text" class="form-control" id="timePlaced" ng-model="trade.timePlaced">
+                <input type="text" readonly class="form-control" id="timePlaced" ng-model="trade.timePlaced">
             </div>
         </div>
         <div class="row">
             <div class="col-xs-3 form-group">
                 <label for="currencyFrom">From</label>
-                <input type="text" class="form-control" id="currencyFrom" ng-model="trade.currencyFrom">
+                <select class="form-control" id="currencyFrom" ng-model="trade.currencyFrom" ng-options="currency for currency in currencies"></select>
             </div>
             <div class="col-xs-3 form-group">
                 <label for="currencyFrom">To</label>
-                <input type="text" class="form-control" id="currencyTo" ng-model="trade.currencyTo">
+                <select class="form-control" id="currencyTo" ng-model="trade.currencyTo" ng-options="currency for currency in currencies""></select>
             </div>
             <div class="col-xs-3 form-group">
                 <label for="rate">Rate</label>
-                <input type="number" min="0.0" step="0.01" class="form-control" id="rate" ng-model="trade.rate" ng-change="onRateChange(trade.rate)">
+                <input type="number" min="0.0" step="0.01" class="form-control" id="rate" ng-model="trade.rate"">
             </div>
         </div>
         <div class="row">
             <div class="col-xs-3 form-group">
                 <label for="amountSell">Amount ({{trade.currencyFrom}})</label>
-                <input type="number" min="0.0" step="0.01" class="form-control" id="amountSell" ng-model="trade.amountSell" ng-change="onAmountSellChange(trade.amountSell)">
+                <input type="number" min="0.0" step="0.01" class="form-control" id="amountSell" ng-model="trade.amountSell">
             </div>
             <div class="col-xs-3 form-group">
                 <label for="amountBuy">Amount ({{trade.currencyTo}})</label>
-                <input type="number" min="0.0" step="0.01" readonly class="form-control" id="amountBuy" ng-model="trade.amountBuy ">
+                <input type="number" readonly class="form-control" id="amountBuy" ng-model="trade.amountBuy ">
             </div>
         </div>
 
