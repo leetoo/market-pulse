@@ -1,6 +1,8 @@
 <h2>Exchange stats</h2>
-
-<div>
+<div ng-show="size() == 0">
+    Waiting for current exchange stats...
+</div>
+<div ng-show="size() > 0">
     <table class="table">
         <thead>
             <tr>

@@ -23,7 +23,10 @@ marketPulseServices.factory('ExchangeStats', ['$websocket',
         });
 
         var methods = {
-            collection: statistics
+            collection: statistics,
+            size: function() {
+                return Object.keys(statistics).length;
+            }
         };
 
         return methods;

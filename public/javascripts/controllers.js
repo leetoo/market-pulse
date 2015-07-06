@@ -2,6 +2,7 @@ var marketPulseControllers = angular.module('marketPulseControllers', []);
 
 marketPulseControllers.controller('ExchangeStatsCtrl', ['$scope', 'ExchangeStats', function($scope, ExchangeStats) {
     $scope.collection = ExchangeStats.collection;
+    $scope.size = ExchangeStats.size;
 }]);
 
 
