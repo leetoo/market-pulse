@@ -46,7 +46,7 @@ class ExchangeStatsAnnouncerSpec extends TestKit(ActorSystem("ExchangeStatsAnnou
       system.eventStream.publish(totalExchange)
 
       Then("the output should receive valid exchange stats")
-      out.expectMsg(5 seconds, exchangeStats)
+      out.expectMsgAllClassOf(classOf[ExchangeStats])
     }
 
     "request current exchange stats when asked explicitly" in new Actors {
@@ -58,7 +58,7 @@ class ExchangeStatsAnnouncerSpec extends TestKit(ActorSystem("ExchangeStatsAnnou
       exchangeStatsAnnouncer ! AnnouncementRequest("get")
 
       Then("the stats provider should receive the message")
-      statsProvider.expectMsg(5 seconds, TotalExchangeRequired(exchangeStatsAnnouncer))
+      statsProvider.expectMsg(TotalExchangeRequired(exchangeStatsAnnouncer))
     }
 
   }
