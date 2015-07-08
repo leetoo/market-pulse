@@ -1,0 +1,6 @@
+{
+  "name": "Market Pulse",
+  "description": "A Play application with Akka back-end and WebSocket event streaming.",
+  "repository": "https://github.com/sbilinski/market-pulse",
+  "keywords": ["scala", "play", "akka", "reactive", "angular.js", "web sockets"]
+}
