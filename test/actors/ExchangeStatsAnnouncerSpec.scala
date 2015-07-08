@@ -1,17 +1,17 @@
 package actors
 
-import actors.Common.Amount
-import actors.ExchangeAccountant.{TotalExchangeRequired, Sale, SaleAccepted, TotalExchange}
+import actors.ExchangeAccountant.{TotalExchange, TotalExchangeRequired}
 import actors.ExchangeStatsAnnouncer.{AnnouncementRequest, ExchangeStats}
-import akka.actor.{ActorSystem, Props}
+import akka.actor.ActorSystem
 import akka.testkit.{ImplicitSender, TestKit, TestProbe}
 import akka.util.Timeout
 import org.junit.runner.RunWith
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.junit.JUnitRunner
-import org.scalatest.{GivenWhenThen, BeforeAndAfterAll, MustMatchers, WordSpecLike}
+import org.scalatest.{BeforeAndAfterAll, GivenWhenThen, MustMatchers, WordSpecLike}
 
 import scala.concurrent.duration._
+import scala.language.postfixOps
 
 @RunWith(classOf[JUnitRunner])
 class ExchangeStatsAnnouncerSpec extends TestKit(ActorSystem("ExchangeStatsAnnouncerSystem"))
@@ -32,8 +32,8 @@ class ExchangeStatsAnnouncerSpec extends TestKit(ActorSystem("ExchangeStatsAnnou
   sealed trait Actors extends Fixtures {
     implicit val timeout = Timeout(2 seconds)
 
-    lazy val out = TestProbe()
-    lazy val exchangeStatsAnnouncer = system.actorOf(ExchangeStatsAnnouncer.props(out.ref))
+    val out = TestProbe()
+    val exchangeStatsAnnouncer = system.actorOf(ExchangeStatsAnnouncer.props(out.ref))
   }
 
   override def afterAll() {
@@ -42,21 +42,15 @@ class ExchangeStatsAnnouncerSpec extends TestKit(ActorSystem("ExchangeStatsAnnou
 
   "ExchangeStatsAnnouncer" should {
     "publish exchange stats from the event stream" in new Actors {
-      Given("the stats announcer was initialized")
-      exchangeStatsAnnouncer
-
       When("a total exchange event is published")
       system.eventStream.publish(totalExchange)
 
       Then("the output should receive valid exchange stats")
-      out.expectMsg(exchangeStats)
+      out.expectMsg(5 seconds, exchangeStats)
     }
 
     "request current exchange stats when asked explicitly" in new Actors {
-      Given("the stats announcer was initialized")
-      exchangeStatsAnnouncer
-
-      And("a stats provider is present")
+      Given("a stats provider is present")
       val statsProvider = TestProbe()
       system.eventStream.subscribe(statsProvider.ref, classOf[TotalExchangeRequired])
 
@@ -64,7 +58,7 @@ class ExchangeStatsAnnouncerSpec extends TestKit(ActorSystem("ExchangeStatsAnnou
       exchangeStatsAnnouncer ! AnnouncementRequest("get")
 
       Then("the stats provider should receive the message")
-      statsProvider.expectMsg(TotalExchangeRequired(exchangeStatsAnnouncer))
+      statsProvider.expectMsg(5 seconds, TotalExchangeRequired(exchangeStatsAnnouncer))
     }
 
   }
