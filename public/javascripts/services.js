@@ -7,9 +7,14 @@ marketPulseServices.factory('Trade', ['$resource',
         });
     }]);
 
-marketPulseServices.factory('ExchangeStats', ['$websocket',
-    function($websocket) {
-        var dataStream = $websocket('ws://' + location.host + '/ws/exchange-stats');
+marketPulseServices.factory('ExchangeStats', ['$window', '$websocket',
+    function($window, $websocket) {
+        var protocol = "ws:"
+        if( $window.location.protocol == "https:" ) {
+            protocol = "wss:"
+        }
+
+        var dataStream = $websocket(protocol + '//' + location.host + '/ws/exchange-stats');
         var statistics = {};
 
         dataStream.onOpen(function() {
