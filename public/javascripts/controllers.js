@@ -39,19 +39,19 @@ marketPulseControllers.controller('TradePublisherCtrl', ['$scope', 'Trade', func
       originatingCountry: $scope.countries[0]
     };
 
-    $scope.$watch('trade.rate', function(newvalue, oldvalue) {
+    $scope.$watch('trade.rate', function(newvalue) {
         $scope.trade.amountBuy = Math.round($scope.trade.amountSell * newvalue * 100) / 100;
     });
 
-    $scope.$watch('trade.amountSell', function(newvalue, oldvalue) {
+    $scope.$watch('trade.amountSell', function(newvalue) {
         $scope.trade.amountBuy = Math.round(newvalue * $scope.trade.rate * 100) / 100;
     });
 
-    $scope.$watch('trade.currencyFrom', function(newvalue, oldvalue) {
+    $scope.$watch('trade.currencyFrom', function(newvalue) {
         $scope.trade.rate = fixedRates[newvalue][$scope.trade.currencyTo];
     });
 
-    $scope.$watch('trade.currencyTo', function(newvalue, oldvalue) {
+    $scope.$watch('trade.currencyTo', function(newvalue) {
         $scope.trade.rate = fixedRates[$scope.trade.currencyFrom][newvalue];
     });
 
